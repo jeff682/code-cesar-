@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code cesar</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 150px;
+            background: linear-gradient(#3498db, #575757, #575757, #3498db);
+        }
+        .container {
+          border-radius: 10px;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+            display: inline-block;
+        }
+        input, textarea {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #257833;
+        }     
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chiffrement de César</h1>
+        <textarea id="inputText" placeholder="Entrez votre texte ici"></textarea> <br>
+        <input type="number" id="shift" placeholder="Entrez le décalage" min="1" max="25"><br>
+        <button onclick="chiffrer()">Chiffrer</button>
+        <button onclick="dechiffrer()">Déchiffrer</button>
+        <h3>Résultat :</h3>
+        <textarea id="outputText" readonly></textarea>
+    </div>
+
+    <script>
+        function cesar(message, decalage, mode) {
+            let resultat = '';
+            for (let i = 0; i < message.length; i++) {
+                let char = message[i];
+                
+                // Vérifie si c'est une lettre majuscule
+                if (char >= 'A' && char <= 'Z') {
+                    resultat += String.fromCharCode(((char.charCodeAt(0) - 65 + (mode ? decalage : -decalage) + 26) % 26) + 65);
+                } 
+                // Vérifie si c'est une lettre minuscule
+                else if (char >= 'a' && char <= 'z') {
+                    resultat += String.fromCharCode(((char.charCodeAt(0) - 97 + (mode ? decalage : -decalage) + 26) % 26) + 97);
+                } 
+                // Conserve les autres caractères inchangés
+                else {
+                    resultat += char;
+                }
+            }
+            return resultat;
+        }
+
+        function chiffrer() {
+            let texte = document.getElementById('inputText').value;
+            let decalage = parseInt(document.getElementById('shift').value);
+            if (!isNaN(decalage)) {
+                document.getElementById('outputText').value = cesar(texte, decalage, true);
+            } else {
+                alert("Veuillez entrer un décalage valide !");
+            }
+        }
+
+        function dechiffrer() {
+            let texte = document.getElementById('inputText').value;
+            let decalage = parseInt(document.getElementById('shift').value);
+            if (!isNaN(decalage)) {
+                document.getElementById('outputText').value = cesar(texte, decalage, false);
+            } else {
+                alert("Veuillez entrer un décalage valide !");
+            }
+        }
+    </script>
+</body>
+</html>
